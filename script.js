@@ -67,7 +67,7 @@ $(document).ready(function() {
   
   function getForecast(searchValue) {
     //console.log("Inside getForecast for city: " + searchValue);
-    var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + searchValue + "&appid=aed806036e1b19433acabfb17d235ec0";
+    var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchValue + "&appid=aed806036e1b19433acabfb17d235ec0";
     $.ajax({
       url: queryURL,
       method: "GET",
