@@ -147,6 +147,6 @@ $(document).ready(function() {
     arr = arr[0].split("-");
     //console.log (arr);
     arr = arr.reverse();
-    return (arr[0]+"/"+arr[1]+"/"+arr[2]);
+    return (arr[1]+"/"+arr[0]+"/"+arr[2]);
   }
 });
