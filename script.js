@@ -8,13 +8,12 @@ $(document).ready(function() {
   });
 
   $(".history").on("click", "li", function() {
-    $("#today").empty();
     searchWeather($(this).text());
   });
 
   function makeRow(text) {
     var li = $("<li>").addClass("list-group-item list-group-item-action").text(text);
-    $(".history").prepend(li);
+    $(".history").append(li);
   }
 
   function searchWeather(searchValue) {
@@ -26,7 +25,7 @@ $(document).ready(function() {
         // create history link for this search
         //console.log(url);
         console.log(data);
-        console.log(data.main.temp);
+        //console.log(data.main.temp);
         var tempF = ((data.main.temp - 273.15) * 9/5 + 32).toFixed(2);
         console.log ("In F " + tempF);
         if (history.indexOf(searchValue) === -1) {
@@ -39,20 +38,26 @@ $(document).ready(function() {
         var todaysDate = moment().format('L');
         console.log(todaysDate);
         // clear any old content
-
+        $("#today").empty();
         // create html content for current weather
-        var newh2 = $("<h2>").html(searchValue + " (" + todaysDate + ")");
+        var iconcode = data.weather[0].icon;
+        var imgTag = $("<img>").addClass("weather-icon").attr("src", "https://openweathermap.org/img/wn/"+iconcode+"@2x.png");
+        imgTag.css("width", "50px");
+        var newH2 = $("<h2>");
+        newH2.html(searchValue + " (" + todaysDate + ") ");
+        newH2.append(imgTag);
+        $("#today").append(newH2);
         var textP1 = "Temparature: " + tempF + " &#8457;";
-        console.log(textP1);
+        //console.log(textP1);
         var newP1 = $("<p>").html(textP1);
         var textP2 = "Humidity: " + data.main.humidity + "%";
-        var newP2 = $("<p>").html(textP2);
+        var newP2 = $("<p>").text(textP2);
         var textP3 = "Wind Speed: " + data.wind.speed + " MPH";
         var newP3 = $("<p>").html(textP3);
         var lat = data.coord.lat;
         var lon = data.coord.lon;
         var newP4;
-        $("#today").append(newh2, newP1, newP2, newP3);
+        $("#today").append(newP1, newP2, newP3);
 
         getUVIndex(data.coord.lat, data.coord.lon);
 
@@ -61,24 +66,42 @@ $(document).ready(function() {
   }
   
   function getForecast(searchValue) {
+    //console.log("Inside getForecast for city: " + searchValue);
+    var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + searchValue + "&appid=aed806036e1b19433acabfb17d235ec0";
     $.ajax({
-      type: "",
-      url: "" + searchValue + "",
-      dataType: "json",
-      success: function(data) {
+      url: queryURL,
+      method: "GET",
+      dataType: "json"
+    }). then (function(data) {
         // overwrite any existing content with title and empty row
-
-        // loop over all forecasts (by 3-hour increments)
+        $("#forecast").empty();
+        $("#forecast").append($("<h2>").text("5 Day Forecast:"));
+        var newCardDeck = $("<div>").addClass("card-deck");
+        $("#forecast").append(newCardDeck);
+        console.log(queryURL);
         for (var i = 0; i < data.list.length; i++) {
           // only look at forecasts around 3:00pm
           if (data.list[i].dt_txt.indexOf("15:00:00") !== -1) {
             // create html elements for a bootstrap card
-            
-
-            // merge together and put on page
+            var day = changeToDate(data.list[i].dt_txt);
+            var fTemp = ((data.list[i].main.temp - 273.15) * 9/5 + 32).toFixed(2);
+            var newDiv = $("<div>").addClass("card text-white bg-primary mb-3").css("max-width", "12rem");
+            //var headerDiv = $("<div>").addClass("card-header").text(day);
+            //newDiv.append(headerDiv);
+            var innerDiv = $("<div>").addClass("card-body");
+            var newh5 = $("<h5>").addClass("card-title").text(day);
+            innerDiv.append(newh5);
+            var iconcode = data.list[i].weather[0].icon;
+            //console.log(iconcode);
+            var imgTag = $("<img>").addClass("weather-icon").attr("src", "https://openweathermap.org/img/wn/"+iconcode+"@2x.png");
+            imgTag.css("width", "50px");
+            innerDiv.append(imgTag);
+            var newP = $("<p>").addClass("card-text").html("Temp: " + fTemp + " &#8457;" + "<br />" + "Humidity: " + data.list[i].main.humidity + "%" );
+            innerDiv.append(newP);
+            newDiv.append(innerDiv);
+            $(".card-deck").append(newDiv);
           }
         }
-      }
     });
   }
 
@@ -116,5 +139,14 @@ $(document).ready(function() {
 
   for (var i = 0; i < history.length; i++) {
     makeRow(history[i]);
+  }
+
+  function changeToDate(input) {
+    var arr = input.split(" ");
+    //console.log (arr);
+    arr = arr[0].split("-");
+    //console.log (arr);
+    arr = arr.reverse();
+    return (arr[0]+"/"+arr[1]+"/"+arr[2]);
   }
 });
