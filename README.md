@@ -7,7 +7,7 @@ and functionality by making requests with specific parameters to a URL.
 When I search for a city, then, Today's weather for that city along with 5 day forecast
 is displayed on the screen and this city is added to the search History.
 
-<img src="images/Capture0.PNG" width="300">
+<img src="images/Capture0.PNG" width="400">
 
 In Today's Forecast, the following information is displayed:
   - Temerature in Fahrenheit
@@ -27,6 +27,6 @@ User can click on a city in the search history to get current and future
 conditions of that city.
 
 
-<img src="images/Capture2.PNG" width="300">
+<img src="images/Capture2.PNG" width="400">
 
 When you open this dashboard, last serached city forecast is displayed.
