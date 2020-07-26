@@ -142,11 +142,11 @@ $(document).ready(function() {
   }
 
   function changeToDate(input) {
+    //There are different ways to do this, but for now I am leaving it this
     var arr = input.split(" ");
     //console.log (arr);
     arr = arr[0].split("-");
     //console.log (arr);
-    arr = arr.reverse();
-    return (arr[1]+"/"+arr[0]+"/"+arr[2]);
+    return (arr[1]+"/"+arr[2]+"/"+arr[0]);
   }
 });
