@@ -19,6 +19,8 @@ In Today's Forecast, the following information is displayed:
 
 <img src="images/CaptureUV.PNG" width="300">
 
+<img src="images/Capture1.PNG" width="400">
+
 The UV Index represents a color that indicates whether the conditions are favorable, moderate, or severe.
 
 For the city that user is seraching the weather, a 5-day forecast is also displyed.
