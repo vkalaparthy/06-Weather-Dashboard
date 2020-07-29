@@ -26,7 +26,7 @@ The UV Index represents a color that indicates whether the conditions are favora
 For the city that user is seraching the weather, a 5-day forecast is also displyed.
 The Forecast for each day displays the date, an icon representation of weather conditions, the temperature, and the humidity.
 User can click on a city in the search history to get current and future
-conditions of that city.
+conditions of that city.  The forecast data is retreiving data at 3:00pm, just for convenience of this homework
 
 
 <img src="images/Capture2.PNG" width="400">
